@@ -1,6 +1,4 @@
-import json
 import random
-import requests
 import re
 
 from datetime import timedelta
