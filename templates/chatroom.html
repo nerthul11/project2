@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block heading %}
+	<script src="{{ url_for('static', filename='js/chatroom.js') }}"></script>
+{% endblock %}
+{% block body %}
+	The Chatroom name is <span id="chatroom">{{ chatroom }}</span> and it's code is <span id="code">{{ code }}</span>
+	<ul id="messages">
+	{% for message in messages %}
+		<li>{{ message.author }} dice: {{ message.message }}</li>
+	{% endfor %}
+	</ul>
+	<textarea id="message" rows=5 cols=50></textarea>
+	<input type="button" id="send" value="Enviar">
+{% endblock %}
