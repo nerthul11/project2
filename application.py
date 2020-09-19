@@ -1,5 +1,6 @@
 import random
 import re
+import urllib.parse
 
 from datetime import timedelta
 from flask import Flask, redirect, render_template, request, session
@@ -55,10 +56,11 @@ def chatroom(chatroom, code):
                 for i in stored_messages:
                     if i['chatroom'] == session['chatroom']:
                         local_messages.append(i)
-                while len(local_messages) > 100:
+                while len(local_messages) > 5:
                     stored_messages.remove(local_messages[0])
                     local_messages.remove(local_messages[0])
         if check:
+            print(local_messages)
             return render_template("chatroom.html", chatroom=chatroom, code=code, online_user=current_user, messages=local_messages)
         else:
             return "PAGE NOT FOUND"
@@ -131,8 +133,10 @@ def logout():
 @socketio.on("send message")
 def send_message(data):
     data['message'] = data['message'].strip()
+    print(data)
     if len(data["message"]) > 0:
-        message = {'chatroom': data['chatroom'], 'author': session['username'], 'message': data['message']}
+        message = {'chatroom': data['chatroom'], 'author': session['username'], 'message': urllib.parse.unquote_plus(data['message'])}
+        print(message)
         stored_messages.append(message)
         local_messages.append(message)
         emit("broadcast message", {'message': message}, broadcast=True)

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="utf-8">
 		{% if online_user %}
 		<div class="right" id="current_user">{{ online_user }}</div>
 		<div class="right" id="logout"><a href="{{ url_for('logout') }}">Cerrar sesión</a></div>

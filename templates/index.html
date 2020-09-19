@@ -6,13 +6,13 @@
 {% if online_user %}
 	{% if public_chatrooms %}
 		{% if previous_chat %}
-			<div><a href="{{ url_for('chatroom', chatroom=previous_chat['name'], code=previous_chat['code']) }}">Volver a {{ previous_chat['name'] }}</a></div>
+			<div><a href="{{ url_for('chatroom', chatroom=previous_chat['name'], code=previous_chat['code']) }}">Return to {{ previous_chat['name'] }}</a></div>
 		{% endif %}
 		<h2>Salas disponibles</h2>
 		<ul id="chatroom_list">
 		{% for dict_item in public_chatrooms %}
 			{% if dict_item['type'] == 'public' %}
-				<li><a href="{{ url_for('chatroom', chatroom=dict_item['name'], code=dict_item['code']) }}">{{ dict_item['name'] }}</li>
+				<li><a class="chatroom_link" href="{{ url_for('chatroom', chatroom=dict_item['name'], code=dict_item['code']) }}">{{ dict_item['name'] }}</li>
 			{% endif %}
 		{% endfor %}
 		</ul>
@@ -21,17 +21,16 @@
 	{% endif %}
 	<a href="{{ url_for('create_chatroom') }}">Crear sala</a>
 	<form action="{{ url_for('chatsearch') }}" method="post">
-		<div>Ingresá el código correspondiente a una sala existente</div>
+		<div class="menu">Insert a chatroom's code:</div>
 		<div><input type="text" placeholder="ID de Chat" id=code name="code"></div>
 		<input type=submit>
 	</form>
 {% else %}
 <form id="login" action="{{ url_for('login') }}" method="post">
-	<div class=center>Poné un nombre para chatear offline con vos mismo.</div>
+	<div class="menu center">Select a nickname to use on the site.</div>
 	<div><input type="text" placeholder="Usuario" id=username name="username" class=center></div>
-	<input type=submit class=center>
+	<input type=submit class="center">
 </form>
-<div id="inner_message" class=center>{{ text }}</div>
+<div id="inner_message" class="center">{{ text }}</div>
 {% endif %}
-<ul id="global_message"></ul>
 {% endblock %}

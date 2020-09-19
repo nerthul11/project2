@@ -1,14 +1,19 @@
 {% extends "layout.html" %}
 {% block heading %}
-	<script src="{{ url_for('static', filename='js/chatroom.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/chatroom.js') }}"></script>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/chatroom.css') }}">
 {% endblock %}
 {% block body %}
 	The Chatroom name is <span id="chatroom">{{ chatroom }}</span> and it's code is <span id="code">{{ code }}</span>
-	<ul id="messages">
+	<div id="messages">
 	{% for message in messages %}
-		<li>{{ message.author }} dice: {{ message.message }}</li>
+		{% if message.author == online_user %}
+			<div class="own">{{ message.message }}</div>
+		{% else %}
+			<div class="other"><strong>{{ message.author }}</strong><br> {{ message.message }}</div>
+		{% endif %}
 	{% endfor %}
-	</ul>
+	</div>
 	<textarea id="message" rows=5 cols=50></textarea>
-	<input type="button" id="send" value="Enviar">
+	<input type="button" id="send" value="Send">
 {% endblock %}
