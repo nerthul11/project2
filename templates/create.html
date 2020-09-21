@@ -2,12 +2,12 @@
 {% block body %}
 <form action="{{ url_for('check') }}" method="post">
 	Datos de la sala<br>
-	<input type="text" placeholder="Nombre de la sala" name="chatroom"><br>
+	<input type="text" placeholder="Chatroom's name" name="chatroom"><br>
 	<input type="radio" id="public" name="room_type" value="public">
-	<label for="public">Público</label>
+	<label for="public">Public</label>
 	<input type="radio" id="private" name="room_type" value="private">
-	<label for="private">Privado</label><br>
-	<button>Crear</button>
+	<label for="private">Private</label><br>
+	<button>Create</button>
 </form>
 <div id="message">{{ text }}</div>
 {% endblock %}

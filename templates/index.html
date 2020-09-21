@@ -17,18 +17,18 @@
 		{% endfor %}
 		</ul>
 	{% else %}
-		<h2>En este momento no hay salas disponibles</h2>
+		<h2>No rooms available</h2>
 	{% endif %}
-	<a href="{{ url_for('create_chatroom') }}">Crear sala</a>
+	<a href="{{ url_for('create_chatroom') }}">Create a room</a>
 	<form action="{{ url_for('chatsearch') }}" method="post">
 		<div class="menu">Insert a chatroom's code:</div>
-		<div><input type="text" placeholder="ID de Chat" id=code name="code"></div>
+		<div><input type="text" placeholder="Chat ID" id=code name="code"></div>
 		<input type=submit>
 	</form>
 {% else %}
 <form id="login" action="{{ url_for('login') }}" method="post">
 	<div class="menu center">Select a nickname to use on the site.</div>
-	<div><input type="text" placeholder="Usuario" id=username name="username" class=center></div>
+	<div><input type="text" placeholder="Username" id=username name="username" class=center></div>
 	<input type=submit class="center">
 </form>
 <div id="inner_message" class="center">{{ text }}</div>

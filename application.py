@@ -1,3 +1,4 @@
+import bingo
 import random
 import re
 import urllib.parse
@@ -40,6 +41,12 @@ def index():
     current_user = session['username'] if "username" in session else None
     previous_chat = session['chatroom'] if 'chatroom' in session else None
     return render_template("index.html", public_chatrooms=chatrooms, text=text, previous_chat=previous_chat, online_user=current_user)
+
+# Bingo
+@app.route("/bingo")
+def play_bingo():
+    bingo.main()
+    return "Bingo was played"
 
 # Chatroom
 @app.route("/<string:chatroom>/<string:code>", methods=["POST","GET"])
