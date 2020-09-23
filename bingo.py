@@ -13,9 +13,9 @@ def generate_ticket(name):
         number = random.randint(lowest, largest)
         if number not in ticket:
             ticket.append(number)
-    ticket_top = [ticket[0],ticket[1],ticket[2],ticket[3],ticket[4]]
-    ticket_mid = [ticket[5],ticket[6],ticket[7],ticket[8],ticket[9]]
-    ticket_bot = [ticket[10], ticket[11], ticket[12], ticket[13], ticket[14]]
+    ticket_top = ticket[0:5]
+    ticket_mid = ticket[5:10]
+    ticket_bot = ticket[10:15]
     ticket = {'name': name, 'top': ticket_top, 'mid': ticket_mid, 'bot': ticket_bot}
     return ticket
 

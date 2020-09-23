@@ -11,14 +11,17 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 	socket.on('broadcast message', data => {
 		if (data.message['chatroom']['code'] == document.querySelector('#code').innerHTML) {
-			const msg = document.createElement('div');
-			if (data.message['author'] == document.getElementById('current_user').innerHTML)
+			var msg = document.createElement('div');
+			if (data.message['author'] == document.getElementById('current_user').innerHTML) {
+				msg.setAttribute("class","own");
 				msg.innerHTML = data.message['message'];
-			else
-				msg.innerHTML = `${data.message['author']}: ${data.message['message']}`
-			document.querySelector('#messages').append(msg);
+			} else {
+				msg.setAttribute("class","other");
+				msg.innerHTML = `<strong>${data.message['author']}</strong><br> ${data.message['message']}`;
+			};
+			document.querySelector('#messages').appendChild(msg);
 			var listlen = document.getElementById('messages').getElementsByTagName('div').length;
-			while (listlen > 100) {
+			while (listlen > 5) {
 				var msglist = document.getElementById('messages');
 				msglist.removeChild(msglist.childNodes[0]);
 				var listlen = document.getElementById('messages').getElementsByTagName('div').length;
@@ -30,5 +33,4 @@ document.addEventListener('DOMContentLoaded', () => {
 		login.innerHTML = `${data.user_login} has joined the chatroom.`;
 		document.querySelector('#messages').append(login);
 	});
-});
 });

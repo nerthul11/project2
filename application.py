@@ -25,6 +25,7 @@ current_user = None # Used when rendering session['username'] to avoid KeyErrors
 chatrooms = [] # List of chatrooms
 stored_messages = [] # All stored messages
 local_messages = [] # Messages for the current chatroom
+tickets = [] # Bingo tickets
 
 # Non-route functions
 def code(length):
@@ -45,8 +46,8 @@ def index():
 # Bingo
 @app.route("/bingo")
 def play_bingo():
-    bingo.main()
-    return "Bingo was played"
+    current_user = session['username'] if 'username' in session else None
+    return render_template("bingo.html", tickets=tickets, online_user=current_user)
 
 # Chatroom
 @app.route("/<string:chatroom>/<string:code>", methods=["POST","GET"])
@@ -137,10 +138,16 @@ def logout():
     else:
         return "Couldn't log out"
 
+@socketio.on("generate ticket")
+def generate_ticket(data):
+    ticket = bingo.generate_ticket(data['name'])
+    tickets.append(ticket)
+    print(tickets)
+    emit("return ticket", ticket)
+
 @socketio.on("send message")
 def send_message(data):
     data['message'] = data['message'].strip()
-    print(data)
     if len(data["message"]) > 0:
         message = {'chatroom': data['chatroom'], 'author': session['username'], 'message': urllib.parse.unquote_plus(data['message'])}
         print(message)
@@ -151,5 +158,6 @@ def send_message(data):
 @socketio.on("submit login")
 def user(data):
     user_login = data["username"]
+    print("Socket emitted")
     if len(user_login) > 0 and user_login not in online_users:
         emit("announce login", {'user_login': user_login}, broadcast=True)

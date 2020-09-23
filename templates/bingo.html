@@ -4,4 +4,32 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bingo.css') }}">
 {% endblock %}
 {% block body %}
+	<h2>Bingo</h2>
+	<button id="ticketgen">Generate</button>
+	<div id="ticket">
+	{% for ticket in tickets %}
+		{% if ticket['name'] == online_user %}
+			<table class="ticket">
+				<tr class="name">
+					<th>{{ ticket['name'] }}</th>
+				</tr>
+				<tr class="top">
+					{% for number in ticket['top'] %}
+					<td>{{ number }}</td>
+					{% endfor %}
+				</tr>
+				<tr class="mid">
+					{% for number in ticket['mid'] %}
+					<td>{{ number }}</td>
+					{% endfor %}
+				</tr>
+				<tr class="bot">
+					{% for number in ticket['bot'] %}
+					<td>{{ number }}</td>
+					{% endfor %}
+				</tr>
+			</table>
+		{% endif %}
+	{% endfor %}
+	</div>
 {% endblock %}
