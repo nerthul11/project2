@@ -1,0 +1,31 @@
+table {
+	border: 2px solid black;
+	border-collapse: collapse;
+	width: 300px;
+	table-layout: fixed;
+}
+
+th, td {
+	border: 1px solid black;
+	padding: 2px;
+}
+
+th {
+	background-color: yellow;
+}
+
+td {
+	padding: 6px;
+}
+
+.undrawn {
+	background-color: red;
+}
+
+.drawn {
+	background-color: yellow;
+}
+
+.clear {
+	background-color: green;
+}

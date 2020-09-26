@@ -36,6 +36,10 @@ def code(length):
     pw = ''.join(pw)
     return pw
 
+def validate(self):
+    valid = re.fullmatch(r'[\w\s]+', self)
+    return valid
+
 # Index
 @app.route("/")
 def index():
@@ -106,24 +110,32 @@ def check():
         text = "Chatroom name already exists."
         return render_template("create.html", text=text, online_user=current_user)
     else:
-        chatcode = code(12)
-        newchat = {'code': chatcode, 'name': request.form.get('chatroom'), 'type': request.form.get('room_type')}
-        chatrooms.append(newchat)
-        return redirect(f"/{newchat['name']}/{newchat['code']}")
+        valid = validate(request.form.get('chatroom'))
+        if valid:
+            chatcode = code(12)
+            newchat = {'code': chatcode, 'name': request.form.get('chatroom'), 'type': request.form.get('room_type')}
+            chatrooms.append(newchat)
+            return redirect(f"/{newchat['name']}/{newchat['code']}")
+        else:
+            text = "Chatroom name can only contain alphanumeric characters"
+            return render_template("create.html", text=text, online_user=current_user)
 
 @app.route("/login", methods=["POST"])
 def login():
-    current_user = session['username'] if "username" in session else None
-    previous_chat = session['chatroom'] if 'chatroom' in session else None
     username = request.form.get("username")
+    username = username.strip()
     if len(username) < 1:
-        text = "No puede ingresar un usuario vacío."
+        text = "Username can't be empty"
+    elif not validate(username):
+        text = "Only alphanumeric characters and whitespaces allowed"
     elif username in online_users:
-        text = "Ese nombre ya se encuentra conectado."
+        text = f"User '{username}' is already online"
     else:
         session['username'] = username
         online_users.append(username)
         text = f"Has iniciado sesión como {username}."
+    current_user = session['username'] if "username" in session else None
+    previous_chat = session['chatroom'] if 'chatroom' in session else None
     return render_template("index.html", public_chatrooms=chatrooms, text=text, online_user=current_user, previous_chat=previous_chat)
 
 @app.route("/logout")
@@ -138,11 +150,15 @@ def logout():
     else:
         return "Couldn't log out"
 
+@socketio.on("draw number")
+def drawnumber(data):
+    bingo.draw_number()
+
 @socketio.on("generate ticket")
 def generate_ticket(data):
     ticket = bingo.generate_ticket(data['name'])
     tickets.append(ticket)
-    print(tickets)
+    bingo.tickets.append(ticket)
     emit("return ticket", ticket)
 
 @socketio.on("send message")
@@ -150,7 +166,6 @@ def send_message(data):
     data['message'] = data['message'].strip()
     if len(data["message"]) > 0:
         message = {'chatroom': data['chatroom'], 'author': session['username'], 'message': urllib.parse.unquote_plus(data['message'])}
-        print(message)
         stored_messages.append(message)
         local_messages.append(message)
         emit("broadcast message", {'message': message}, broadcast=True)

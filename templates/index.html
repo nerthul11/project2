@@ -28,7 +28,7 @@
 {% else %}
 <form id="login" action="{{ url_for('login') }}" method="post">
 	<div class="menu center">Select a nickname to use on the site.</div>
-	<div><input type="text" placeholder="Username" id=username name="username" class=center></div>
+	<div><input type="text" placeholder="Username" id=username name="username" class=center maxlength="20"></div>
 	<input type=submit class="center">
 </form>
 <div id="inner_message" class="center">{{ text }}</div>

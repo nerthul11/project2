@@ -11,25 +11,27 @@
 		{% if ticket['name'] == online_user %}
 			<table class="ticket">
 				<tr class="name">
-					<th>{{ ticket['name'] }}</th>
+					<th colspan="3">{{ ticket['name'] }}</th>
+					<th colspan="2">{{ ticket['score'] }}</th>
 				</tr>
 				<tr class="top">
 					{% for number in ticket['top'] %}
-					<td>{{ number }}</td>
+					<td class="undrawn">{{ number }}</td>
 					{% endfor %}
 				</tr>
 				<tr class="mid">
 					{% for number in ticket['mid'] %}
-					<td>{{ number }}</td>
+					<td class="undrawn">{{ number }}</td>
 					{% endfor %}
 				</tr>
 				<tr class="bot">
 					{% for number in ticket['bot'] %}
-					<td>{{ number }}</td>
+					<td class="undrawn">{{ number }}</td>
 					{% endfor %}
 				</tr>
 			</table>
 		{% endif %}
 	{% endfor %}
 	</div>
+	<button id="draw">Draw number</button>
 {% endblock %}

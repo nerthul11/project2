@@ -10,32 +10,32 @@ document.addEventListener('DOMContentLoaded', () => {
 			const user = document.getElementById('current_user').innerHTML;
 			socket.emit('generate ticket', {'name': user});
 		};
+		document.querySelector('#draw').onclick = () => {
+		socket.emit('draw number', {'newgame': true})
+		};
+			
 	});
 	socket.on('return ticket', data => {
-		var ticket = {'name': data['name'], 'top': data['top'], 'mid': data['mid'], 'bot': data['bot']},
+		var ticket = {'name': data['name'], 'score': data['score'], 'top': data['top'], 'mid': data['mid'], 'bot': data['bot']},
 		table = document.createElement('table'),
 		name = document.createElement('tr'),
 		top = document.createElement('tr'),
 		mid = document.createElement('tr'),
 		bot = document.createElement('tr');
-		name.setAttribute("class","name");
-		top.setAttribute("class","top");
-		mid.setAttribute("class","mid");
-		bot.setAttribute("class","bot");
-		name.innerHTML = '<th>' + ticket['name'] + '</th>';
+		name.innerHTML = '<th colspan="3" class="name">' + ticket['name'] + '</th><th colspan="2">' + ticket['score'] + '</th>';
 		var text = "";
 		for (number in ticket['top']) {
-			text += '<td>' + ticket['top'][number] + '</td>';
+			text += '<td class="undrawn">' + ticket['top'][number] + '</td>';
 		};
 		top.innerHTML = text
 		var text = "";
 		for (number in ticket['mid']) {
-			text += '<td>' + ticket['mid'][number] + '</td>';
+			text += '<td class="undrawn">' + ticket['mid'][number] + '</td>';
 		};
 		mid.innerHTML = text;
 		var text = "";
 		for (number in ticket['bot']) {
-			text += '<td>' + ticket['bot'][number] + '</td>';
+			text += '<td class="undrawn">' + ticket['bot'][number] + '</td>';
 		};
 		bot.innerHTML = text;
 		document.querySelector('#ticket').appendChild(table);
