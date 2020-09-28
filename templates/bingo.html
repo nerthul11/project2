@@ -6,25 +6,26 @@
 {% block body %}
 	<h2>Bingo</h2>
 	<button id="ticketgen">Generate</button>
+	<p id=drawed>{{ drawed }}<p>
 	<div id="ticket">
 	{% for ticket in tickets %}
 		{% if ticket['name'] == online_user %}
 			<table class="ticket">
-				<tr class="name">
+				<tr>
 					<th colspan="3">{{ ticket['name'] }}</th>
 					<th colspan="2">{{ ticket['score'] }}</th>
 				</tr>
-				<tr class="top">
+				<tr>
 					{% for number in ticket['top'] %}
 					<td class="undrawn">{{ number }}</td>
 					{% endfor %}
 				</tr>
-				<tr class="mid">
+				<tr>
 					{% for number in ticket['mid'] %}
 					<td class="undrawn">{{ number }}</td>
 					{% endfor %}
 				</tr>
-				<tr class="bot">
+				<tr>
 					{% for number in ticket['bot'] %}
 					<td class="undrawn">{{ number }}</td>
 					{% endfor %}

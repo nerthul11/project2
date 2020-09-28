@@ -1,3 +1,7 @@
+#drawed {
+	display: none;
+}
+
 table {
 	border: 2px solid black;
 	border-collapse: collapse;
@@ -23,9 +27,5 @@ td {
 }
 
 .drawn {
-	background-color: yellow;
-}
-
-.clear {
-	background-color: green;
+	background-color: lime;
 }

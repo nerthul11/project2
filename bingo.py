@@ -16,27 +16,21 @@ def generate_ticket(name):
     ticket_top = ticket[0:5]
     ticket_mid = ticket[5:10]
     ticket_bot = ticket[10:15]
-    ticket = {'name': name, 'score': 0, 'top': ticket_top, 'mid': ticket_mid, 'bot': ticket_bot}
+    ticket = {'name': name, 'score': 0, 'top': ticket_top, 'mid': ticket_mid, 'bot': ticket_bot, 'undrawn': 15}
     return ticket
 
 def draw_number():
-    global drawtext
     drawed_number = random.randint(lowest,largest)
     while drawed_number in drawed_numbers:
         drawed_number = random.randint(lowest,largest)
     drawed_numbers.append(drawed_number)
+    drawed_numbers.sort()
     multiplier = (largest - lowest) - len(drawed_numbers) + 1
     for ticket in tickets:
-        remaining = 16 - (len(ticket['top']) + len(ticket['mid']) + len(ticket['bot']))
-        if drawed_number in ticket['top']:
-            ticket['score'] += multiplier * remaining
-            ticket['top'].remove(drawed_number)
-        if drawed_number in ticket['mid']:
-            ticket['score'] += multiplier * remaining
-            ticket['mid'].remove(drawed_number)
-        if drawed_number in ticket['bot']:
-            ticket['score'] += multiplier * remaining
-            ticket['bot'].remove(drawed_number)
+        for line in (ticket['top'],ticket['mid'],ticket['bot']):
+            if drawed_number in line:
+                ticket['score'] += multiplier * (16 - ticket['undrawn'])
+                ticket['undrawn'] -= 1
     if not line_winners:
         linecheck(tickets)
     if not game_winners:
@@ -44,8 +38,13 @@ def draw_number():
 
 def linecheck(tickets):
     for ticket in tickets:
-        if 0 in (len(ticket['top']),len(ticket['mid']),len(ticket['bot'])):
-            line_winners.append(ticket['name'])
+        for line in (ticket['top'],ticket['mid'],ticket['bot']):
+            linecount = 0
+            for number in line:
+                if number in drawed_numbers:
+                    linecount += 1
+                    if linecount == 5:
+                        line_winners.append(ticket['name'])
     if line_winners:
         for ticket in tickets:
             if ticket['name'] in line_winners:
@@ -53,12 +52,12 @@ def linecheck(tickets):
 
 def gamecheck(tickets):
     for ticket in tickets:
-        if not ticket['top'] and not ticket['mid'] and not ticket['bot']:
+        if ticket['undrawn'] == 0:
             game_winners.append(ticket['name'])
     if game_winners:
        for ticket in tickets:
            if ticket['name'] in game_winners:
-                ticket['score'] += 100 * ((largest - lowest + 2) - len(drawed_numbers))
+               ticket['score'] += 100 * ((largest - lowest + 2) - len(drawed_numbers))
 
 def main():
     # Runs the game automatically with a set number of tickets

@@ -25,7 +25,6 @@ current_user = None # Used when rendering session['username'] to avoid KeyErrors
 chatrooms = [] # List of chatrooms
 stored_messages = [] # All stored messages
 local_messages = [] # Messages for the current chatroom
-tickets = [] # Bingo tickets
 
 # Non-route functions
 def code(length):
@@ -51,7 +50,7 @@ def index():
 @app.route("/bingo")
 def play_bingo():
     current_user = session['username'] if 'username' in session else None
-    return render_template("bingo.html", tickets=tickets, online_user=current_user)
+    return render_template("bingo.html", tickets=bingo.tickets, online_user=current_user, drawed=bingo.drawed_numbers)
 
 # Chatroom
 @app.route("/<string:chatroom>/<string:code>", methods=["POST","GET"])
@@ -153,11 +152,11 @@ def logout():
 @socketio.on("draw number")
 def drawnumber(data):
     bingo.draw_number()
+    emit("draw result", {'drawed numbers': bingo.drawed_numbers, 'tickets': bingo.tickets}, broadcast=True)
 
 @socketio.on("generate ticket")
 def generate_ticket(data):
     ticket = bingo.generate_ticket(data['name'])
-    tickets.append(ticket)
     bingo.tickets.append(ticket)
     emit("return ticket", ticket)
 
