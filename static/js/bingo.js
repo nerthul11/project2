@@ -8,10 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	function refresh() {
 		all = document.querySelectorAll('#ticket td');
 		for (i = 0; i < all.length; i++) {
-			arr = document.querySelector('#drawed').innerHTML
+			arr = document.querySelector('#drawed').innerHTML;
 			if (arr.includes(all[i].innerHTML)) {
 				all[i].setAttribute("class","drawn");
 			};
+		};
+		if (document.querySelector('#endgame').innerHTML == true) {
+			document.querySelector('#draw').disabled = true
 		};
 	};
 	var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
@@ -21,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			socket.emit('generate ticket', {'name': user});
 		};
 		document.querySelector('#draw').onclick = () => {
-		socket.emit('draw number', {'newgame': true})
+		socket.emit('draw number')
 		};
 	});
 	socket.on('return ticket', data => {
@@ -56,6 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 	socket.on('draw result', data => {
 		document.querySelector('#drawed').innerHTML = data['drawed numbers'];
+		document.querySelector('#text').innerHTML = data['info']['draw'];
+		document.querySelector('#announcement').innerHTML = data['info']['announcement'];
+		document.querySelector('#endgame').innerHTML = data['info']['endgame']
 		for (i in data['tickets']) {
 			if (data['tickets'][i]['name'] == document.getElementById('current_user').innerHTML) {
 				document.querySelector('tr').innerHTML = '<th colspan="3">' + data['tickets'][i]['name'] + '</th><th colspan="2">' + data['tickets'][i]['score'] + '</th>';

@@ -50,7 +50,7 @@ def index():
 @app.route("/bingo")
 def play_bingo():
     current_user = session['username'] if 'username' in session else None
-    return render_template("bingo.html", tickets=bingo.tickets, online_user=current_user, drawed=bingo.drawed_numbers)
+    return render_template("bingo.html", tickets=bingo.tickets, online_user=current_user, drawed=bingo.drawed_numbers, info=bingo.info)
 
 # Chatroom
 @app.route("/<string:chatroom>/<string:code>", methods=["POST","GET"])
@@ -150,9 +150,9 @@ def logout():
         return "Couldn't log out"
 
 @socketio.on("draw number")
-def drawnumber(data):
+def drawnumber():
     bingo.draw_number()
-    emit("draw result", {'drawed numbers': bingo.drawed_numbers, 'tickets': bingo.tickets}, broadcast=True)
+    emit("draw result", {'drawed numbers': bingo.drawed_numbers, 'tickets': bingo.tickets, 'info': bingo.info}, broadcast=True)
 
 @socketio.on("generate ticket")
 def generate_ticket(data):

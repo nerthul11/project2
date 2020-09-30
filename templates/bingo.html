@@ -6,7 +6,10 @@
 {% block body %}
 	<h2>Bingo</h2>
 	<button id="ticketgen">Generate</button>
-	<p id=drawed>{{ drawed }}<p>
+	<p id=drawed style="display: none">{{ drawed }}</p>
+	<p id=endgame style="display: none">{{ info['endgame'] }}</p>
+	<p id=text></p>
+	<p id=announcement></p>
 	<div id="ticket">
 	{% for ticket in tickets %}
 		{% if ticket['name'] == online_user %}
