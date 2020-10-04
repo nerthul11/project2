@@ -1,9 +1,9 @@
 import bingo
+import datetime
 import random
 import re
 import urllib.parse
 
-from datetime import timedelta
 from flask import Flask, redirect, render_template, request, session
 from flask_session import Session
 from flask_socketio import SocketIO, emit
@@ -13,7 +13,7 @@ app = Flask(__name__)
 # Configure session to use filesystem
 app.config["SECRET_KEY"] = "bd82J0_aQhsVR04$:1MmNxTNsQ"
 app.config["SESSION_PERMANENT"] = True
-app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=16)
+app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(hours=16)
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 socketio = SocketIO(app)
@@ -42,7 +42,7 @@ def validate(self):
 # Index
 @app.route("/")
 def index():
-    current_user = session['username'] if "username" in session else None
+    current_user = session['username'] if 'username' in session else None
     previous_chat = session['chatroom'] if 'chatroom' in session else None
     return render_template("index.html", public_chatrooms=chatrooms, text=text, previous_chat=previous_chat, online_user=current_user)
 
@@ -71,7 +71,6 @@ def chatroom(chatroom, code):
                     stored_messages.remove(local_messages[0])
                     local_messages.remove(local_messages[0])
         if check:
-            print(local_messages)
             return render_template("chatroom.html", chatroom=chatroom, code=code, online_user=current_user, messages=local_messages)
         else:
             return "PAGE NOT FOUND"
@@ -164,7 +163,9 @@ def generate_ticket(data):
 def send_message(data):
     data['message'] = data['message'].strip()
     if len(data["message"]) > 0:
-        message = {'chatroom': data['chatroom'], 'author': session['username'], 'message': urllib.parse.unquote_plus(data['message'])}
+        time = datetime.datetime.now()
+        timestr = time.strftime("%H:%M")
+        message = {'chatroom': data['chatroom'], 'author': session['username'], 'message': urllib.parse.unquote_plus(data['message']), 'time': timestr}
         stored_messages.append(message)
         local_messages.append(message)
         emit("broadcast message", {'message': message}, broadcast=True)

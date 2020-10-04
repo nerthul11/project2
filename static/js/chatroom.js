@@ -11,15 +11,18 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 	socket.on('broadcast message', data => {
 		if (data.message['chatroom']['code'] == document.querySelector('#code').innerHTML) {
-			var msg = document.createElement('div');
+			var msgbox = document.createElement('div'), 
+			msg = document.createElement('div');
+			msgbox.setAttribute("class","messagebox");
 			if (data.message['author'] == document.getElementById('current_user').innerHTML) {
-				msg.setAttribute("class","own");
+				msg.setAttribute("class","sent");
 				msg.innerHTML = data.message['message'];
 			} else {
-				msg.setAttribute("class","other");
+				msg.setAttribute("class","received");
 				msg.innerHTML = `<strong>${data.message['author']}</strong><br> ${data.message['message']}`;
 			};
-			document.querySelector('#messages').appendChild(msg);
+			document.querySelector('#messages').appendChild(msgbox);
+			msgbox.appendChild(msg);
 			var listlen = document.getElementById('messages').getElementsByTagName('div').length;
 			while (listlen > 5) {
 				var msglist = document.getElementById('messages');

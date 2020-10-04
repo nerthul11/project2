@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
 	<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 		<meta charset="utf-8">
-		{% if online_user %}
-		<div class="right" id="current_user">{{ online_user }}</div>
-		<div class="right" id="logout"><a href="{{ url_for('logout') }}">Cerrar sesión</a></div>
-		{% endif %}
-		<title>Project2</title>
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
 		<script src="{{ url_for('static', filename='js/layout.js') }}"></script>
+		{% if online_user %}
+		<div class="right" id="current_user">{{ online_user }}</div>
+		<div class="right" id="logout"><a href="{{ url_for('logout') }}">Logout</a></div>
+		{% endif %}
+		<title>Project2</title>
 		{% block heading %}{% endblock %}
 	</head>
 	<body>
