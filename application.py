@@ -165,14 +165,14 @@ def send_message(data):
     if len(data["message"]) > 0:
         time = datetime.datetime.now()
         timestr = time.strftime("%H:%M")
-        message = {'chatroom': data['chatroom'], 'author': session['username'], 'message': urllib.parse.unquote_plus(data['message']), 'time': timestr}
+        message = {'chatroom': data['chatroom'], 'type': 'message', 'author': session['username'], 'message': urllib.parse.unquote_plus(data['message']), 'time': timestr}
         stored_messages.append(message)
         local_messages.append(message)
         emit("broadcast message", {'message': message}, broadcast=True)
 
 @socketio.on("submit login")
 def user(data):
-    user_login = data["username"]
+    user_login = {'type': 'announcement', 'user': data["username"]}
     print("Socket emitted")
     if len(user_login) > 0 and user_login not in online_users:
         emit("announce login", {'user_login': user_login}, broadcast=True)

@@ -5,26 +5,15 @@
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
-		<script src="{{ url_for('static', filename='js/layout.js') }}"></script>
 		{% if online_user %}
 		<div class="right" id="current_user">{{ online_user }}</div>
 		<div class="right" id="logout"><a href="{{ url_for('logout') }}">Logout</a></div>
 		{% endif %}
-		<title>Project2</title>
+		<title>Project2 - Flack</title>
 		{% block heading %}{% endblock %}
 	</head>
 	<body>
-		<h1>PROJECT 2</h1>
+		<h1>PROJECT 2 - FLACK</h1>
 		{% block body %}{% endblock %}
-		<form id="background">
-			<div id="text">You can customize your background's color here.</div>
-			Red:
-			<input type="number" id="red" min="0" max="255">
-			Green:
-			<input type="number" id="green" min="0" max="255">
-			Blue:
-			<input type="number" id="blue" min="0" max="255">
-			<input type=submit>
-		</form>
 	</body>
 </html>

@@ -1,13 +1,15 @@
 .container{max-width:1170px; margin:auto;}
 
-.received_msg {
+.incoming_msg {
   display: inline-block;
   padding: 0 0 0 10px;
   vertical-align: top;
   width: 92%;
  }
  
-.received_withd_msg p {
+.received_msg { width: 46%;}
+ 
+.received_msg p {
   background: #eaeaea none repeat scroll 0 0;
   border-radius: 10px;
   color: #646464;
@@ -24,8 +26,6 @@
   margin: 8px 0 0;
 }
 
-.received_withd_msg { width: 46%;}
-
 .mesgs {
   float: left;
   padding: 30px 15px 0 25px;
@@ -33,7 +33,9 @@
   overflow-wrap: break-word;
 }
 
- .sent_msg p {
+.outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
+
+.sent_msg p {
   background: #0089df none repeat scroll 0 0;
   border-radius: 10px;
   font-size: 14px;
@@ -42,12 +44,19 @@
   width:100%;
 }
 
-.outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
-
 .sent_msg {
   float: right;
   text-align: right;
   width: 46%;
+}
+
+.type_msg {
+	border-top: 1px solid #c4c4c4;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: #fff;
 }
 
 .input_msg_write input {
@@ -56,10 +65,9 @@
   color: #4c4c4c;
   font-size: 15px;
   min-height: 48px;
+  position: relative;
   width: 90%;
 }
-
-.type_msg {border-top: 1px solid #c4c4c4;position: relative;}
 
 .msg_send_btn {
   background: #05728f none repeat scroll 0 0;

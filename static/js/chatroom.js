@@ -12,28 +12,33 @@ document.addEventListener('DOMContentLoaded', () => {
 	socket.on('broadcast message', data => {
 		if (data.message['chatroom']['code'] == document.querySelector('#code').innerHTML) {
 			var msgbox = document.createElement('div'), 
-			msg = document.createElement('div');
-			msgbox.setAttribute("class","messagebox");
+			msg = document.createElement('div'),
+			p = document.createElement('p'),
+			time = document.createElement('span');
+			time.setAttribute("class","time_date");
+			time.innerHTML = data.message['time'];
 			if (data.message['author'] == document.getElementById('current_user').innerHTML) {
-				msg.setAttribute("class","sent");
-				msg.innerHTML = data.message['message'];
+				msgbox.setAttribute("class","outgoing_msg")
+				msg.setAttribute("class","sent_msg");
+				p.innerHTML = data.message['message'];
 			} else {
-				msg.setAttribute("class","received");
-				msg.innerHTML = `<strong>${data.message['author']}</strong><br> ${data.message['message']}`;
+				msgbox.setAttribute("class","incoming_msg")
+				msg.setAttribute("class","received_msg");
+				p.innerHTML = `<strong>${data.message['author']}</strong><br> ${data.message['message']}`;
 			};
-			document.querySelector('#messages').appendChild(msgbox);
+			document.querySelector('.msg_history').appendChild(msgbox);
 			msgbox.appendChild(msg);
-			var listlen = document.getElementById('messages').getElementsByTagName('div').length;
+			msg.appendChild(p);
+			msg.appendChild(time);
+			var listlen = document.querySelector('.msg_history').querySelectorAll('.msg_history > div').length;
 			while (listlen > 5) {
-				var msglist = document.getElementById('messages');
+				var msglist = document.querySelector('.msg_history');
 				msglist.removeChild(msglist.childNodes[0]);
-				var listlen = document.getElementById('messages').getElementsByTagName('div').length;
+				var listlen = document.querySelector('.msg_history').querySelectorAll('.msg_history > div').length;
 			};
 		};
 	});
 	socket.on('announce login', data => {
-		const login = document.createElement('div');
-		login.innerHTML = `${data.user_login} has joined the chatroom.`;
-		document.querySelector('#messages').append(login);
+       console.log("Socket received");
 	});
 });
