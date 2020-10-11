@@ -1,8 +1,32 @@
-.container{max-width:1170px; margin:auto;}
+.container{
+  max-width:1170px;
+  margin: auto;
+}
+
+.announcement {
+  width: 92%;
+  padding: 0 0 10px 30%;
+}
+.neutral {
+  width: 55%;
+  margin-bottom: 16px
+}
+
+.neutral p {
+  background: #bbbbbb none repeat scroll 0 0;
+  color: #333333;
+  border-radius: 10px;
+  float: center;
+  text-align: center;
+  font-size: 14px;
+  margin: 0;
+  padding: 5px 10px 5px 12px;
+  width: 100%;
+}
 
 .incoming_msg {
   display: inline-block;
-  padding: 0 0 0 10px;
+  margin: 0 0 12px;
   vertical-align: top;
   width: 92%;
  }
@@ -23,23 +47,28 @@
   color: #747474;
   display: block;
   font-size: 12px;
-  margin: 8px 0 0;
+  margin: 4px 0 12px;
 }
 
 .mesgs {
   float: left;
-  padding: 30px 15px 0 25px;
-  width: 90%;
+  padding: 24px 15px 24px 15px;
+  width: 100%;
   overflow-wrap: break-word;
+  border: 2px solid;
+  overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
 }
 
-.outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
+.outgoing_msg{ overflow:hidden; margin:0 0 12px;}
 
 .sent_msg p {
   background: #0089df none repeat scroll 0 0;
   border-radius: 10px;
   font-size: 14px;
-  margin: 0; color:#fff;
+  margin: 0;
+  color:#fff;
   padding: 5px 10px 5px 12px;
   width:100%;
 }

@@ -9,7 +9,13 @@
 		<div class="mesgs">
 			<div class="msg_history">
 			{% for message in messages %}
-				{% if message.author == online_user %}
+				{% if message.type == 'announcement' %}
+				<div class="announcement">
+					<div class="neutral">
+						<p>{{ message.message }}</p>
+					</div>
+				</div>
+				{% elif message.author == online_user %}
 				<div class="outgoing_msg">
 					<div class="sent_msg">
 					<p>{{ message.message }}</p>

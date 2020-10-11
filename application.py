@@ -67,7 +67,7 @@ def chatroom(chatroom, code):
                 for i in stored_messages:
                     if i['chatroom'] == session['chatroom']:
                         local_messages.append(i)
-                while len(local_messages) > 5:
+                while len(local_messages) > 100:
                     stored_messages.remove(local_messages[0])
                     local_messages.remove(local_messages[0])
         if check:
@@ -172,7 +172,7 @@ def send_message(data):
 
 @socketio.on("submit login")
 def user(data):
-    user_login = {'type': 'announcement', 'user': data["username"]}
-    print("Socket emitted")
-    if len(user_login) > 0 and user_login not in online_users:
-        emit("announce login", {'user_login': user_login}, broadcast=True)
+    stored_messages.append(data)
+    local_messages.append(data)
+    print(stored_messages)
+    emit("announce login", data, broadcast=True)

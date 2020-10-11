@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.querySelector('#send').onclick = () => {
 			const message = encode_utf8(document.querySelector('#message').value);
 			socket.emit('send message', {'chatroom': {'code':document.querySelector('#code').innerHTML, 'name': document.querySelector('#chatroom').innerHTML}, 'message': message});
+			document.querySelector('#message').value = null;
 		};
 	});
 	socket.on('broadcast message', data => {
@@ -31,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			msg.appendChild(p);
 			msg.appendChild(time);
 			var listlen = document.querySelector('.msg_history').querySelectorAll('.msg_history > div').length;
-			while (listlen > 5) {
+			while (listlen > 100) {
 				var msglist = document.querySelector('.msg_history');
 				msglist.removeChild(msglist.childNodes[0]);
 				var listlen = document.querySelector('.msg_history').querySelectorAll('.msg_history > div').length;
